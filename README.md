@@ -9,7 +9,7 @@ For now, adds specific Tiered Item Containers according to the monsters you kill
 --- 
 
 ## Installation
-Requires version >=1.3.2
+Requires Ragnarok Offline version >=1.3.2
 1) Download the [latest release](https://github.com/igueradx/ARPG-Equipments-Mod/releases) - patches should be released frequently in the beginning
 2) Extract the file in your Ragnarok Offline mods folder (default path is %AppData%\Ragnarok Offline\state\mods)
 3) Activate it on Settings > Mods the next time you run it and click Apply
