@@ -21,7 +21,7 @@ Requires Ragnarok Offline version >=1.3.2
 ---
 
 ## Is it for me?
-The mod was designed to be played on Renewal version of kRO, with the highest tier rewards focused on Set Equipments (Temporal, Noblesse, Grace, etc), Shadow Gear and Costumes to further strenghten your builds.
+The mod was designed to be played on Renewal version of kRO/iRO, with the highest tier rewards focused on Set Equipments (Temporal, Noblesse, Grace, etc), Shadow Gear and Costumes to further strenghten your builds.
 
 But it is completely possible to be played on pre-renewal versions, since the low tier equipment chests drops entry-level equipments for all the classes in the game.
 If you encounter an unknown item that is not supported by you game version, just vendor it
