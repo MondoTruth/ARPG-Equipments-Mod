@@ -4,7 +4,10 @@
 Custom-made progression system for [Ragnarok Offline](https://github.com/Flux159/ragnarokoffline.app) focused on acquisition of equipments filled with Random Options (additional stats), scaling in quality and attributes as you kill higher monsters.
 
 Specifically designed to be put togheter with other endgame mods, for scaling challenges and rewards, not limited by the default Ragnarok experience with the regular Episodes.
-For now, adds specific Tiered Item Containers according to the monsters you kill, and in the future will unlock more possibilities like natural monster drops and item crafting (changing Random Options from one item to another, changing specific lines or even make them stronger)
+1) Receive Tiered Chests with special equipment according to the level of monsters you kill - Low level monsters rewards basic equipment with low bonus, high level monsters rewards better chests with specialized equipment, shadow gear and costumes
+2) Advanced item crafting (transmuting Bonus Attributes from one item to any Equipment you want, changing specific bonuses or even make them stronger)
+
+In the near future, there will be custom maps and challenges with scaling difficulty, designed to test how far you can push your characters and builds.
 
 --- 
 
