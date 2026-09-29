@@ -8,6 +8,7 @@ Specifically designed to be put togheter with other endgame mods, for scaling ch
 2) Advanced item crafting (transmuting Bonus Attributes from one item to any Equipment you want, changing specific bonuses or even make them stronger)
 
 In the near future, there will be custom maps and challenges with scaling difficulty, designed to test how far you can push your characters and builds.
+Within this maps you will be able to face custom bosses to acquire special crafting materials, cards and permanent bonuses for your character (both for drops/exp and for selected stats)
 
 --- 
 
