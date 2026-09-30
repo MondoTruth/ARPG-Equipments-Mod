@@ -6,6 +6,7 @@ Custom-made progression system for [Ragnarok Offline](https://github.com/Flux159
 Specifically designed to be put togheter with other endgame mods, for scaling challenges and rewards, not limited by the default Ragnarok experience with the regular Episodes.
 1) Receive Tiered Chests with special equipment according to the level of monsters you kill - Low level monsters rewards basic equipment with low bonus, high level monsters rewards better chests with specialized equipment, shadow gear and costumes
 2) Advanced item crafting (transmuting Bonus Attributes from one item to any Equipment you want, changing specific bonuses or even make them stronger)
+3) Custom Hub area with multiple NPCs tweaked and created for the mod (acessible by the Dark Varkyrie NPC in Prontera, southwest of the fountain)
 
 In the near future, there will be custom maps and challenges with scaling difficulty, designed to test how far you can push your characters and builds.
 Within this maps you will be able to face custom bosses to acquire special crafting materials, cards and permanent bonuses for your character (both for drops/exp and for selected stats)
