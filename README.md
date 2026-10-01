@@ -3,10 +3,9 @@
 # ⚔️ ARPG Equipments Mod
 Custom-made progression system for [Ragnarok Offline](https://github.com/Flux159/ragnarokoffline.app) focused on acquisition of equipments filled with Random Options (additional stats), scaling in quality and attributes as you kill higher monsters.
 
-**There are a total of 6 Equipment Chests you can acquire, each one of them from a specific level range of monsters you kill**
-Tiers 1 to 3 are meant for pre-renewal players, while Tiers 4-6 focus on progression of sets from levels 100 to 250
+**There are a total of 6 Equipment Chests you can acquire, each one of them from a specific level range of monsters you kill** - Tiers 1 to 3 are meant for pre-renewal players, while Tiers 4-6 focus on progression of sets from levels 100 to 250
 
-**You can now enable/disable the drops of each Chest from the Mod Settings** 
+**You can now enable/disable individual Chests from the Mod Settings** 
 
 **You can now change their default drop rates real-time directly inside the game with the Chest Customizer NPC in the ARPG Hub Area, without the need of restarting the Server**
 
