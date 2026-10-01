@@ -6,7 +6,9 @@ Custom-made progression system for [Ragnarok Offline](https://github.com/Flux159
 Specifically designed to be put togheter with other endgame mods, for scaling challenges and rewards, not limited by the default Ragnarok experience with the regular Episodes.
 1) Receive Tiered Chests with special equipment according to the level of monsters you kill - Low level monsters rewards basic equipment with low bonus, high level monsters rewards better chests with specialized equipment, shadow gear and costumes
 2) Advanced item crafting (transmuting Bonus Attributes from one item to any Equipment you want, changing specific bonuses or even make them stronger)
-3) Custom Hub area with multiple NPCs tweaked and created for the mod (acessible by the Dark Varkyrie NPC in Prontera, southwest of the fountain)
+3) Custom Hub area with multiple NPCs tweaked and created for the mod (acessible by the Dark Knight NPC in Prontera, southwest of the fountain)
+
+You can now customize the drop rates of each chest (Tiers 1 to 6) directly in-game from the ARPG Hub without the need to restart your client
 
 In the near future, there will be custom maps and challenges with scaling difficulty, designed to test how far you can push your characters and builds.
 Within this maps you will be able to face custom bosses to acquire special crafting materials, cards and permanent bonuses for your character (both for drops/exp and for selected stats)
@@ -16,7 +18,7 @@ Within this maps you will be able to face custom bosses to acquire special craft
 ## Installation
 Requires Ragnarok Offline version >=1.3.2
 1) Download the [latest release](https://github.com/igueradx/ARPG-Equipments-Mod/releases) - patches should be released frequently in the beginning
-2) Extract the file in your Ragnarok Offline mods folder (default path is %AppData%\Ragnarok Offline\state\mods)
+2) Extract the file in your Ragnarok Offline mods folder (default path is %AppData%\Ragnarok Offline\state\mods) or use the Ragnarok App option to install from folder
 3) Activate it on Settings > Mods the next time you run it and click Apply
 
 ---
