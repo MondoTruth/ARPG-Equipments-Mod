@@ -1,0 +1,95 @@
+// ARPG Equipments Mod - Made by Iguera
+// Global Chest Drop Rate Customizer
+
+arpg_hub,160,124,4	script	Chest Drop Customizer	61,{
+
+OnTalk:
+	// Pre-calculate current percentage values to avoid parser stack issues.
+	// When no in-game override is set, fall back to the mod-settings value so
+	// what this NPC shows matches what the chest scripts actually use.
+	.@d1 = callfunc("F_ModSetting", "arpg-equipments", "chest_1_rate", 5) * 100;
+	.@d2 = callfunc("F_ModSetting", "arpg-equipments", "chest_2_rate", 5) * 100;
+	.@d3 = callfunc("F_ModSetting", "arpg-equipments", "chest_3_rate", 3) * 100;
+	.@d4 = callfunc("F_ModSetting", "arpg-equipments", "chest_4_rate", 5) * 100;
+	.@d5 = callfunc("F_ModSetting", "arpg-equipments", "chest_5_rate", 4) * 100;
+	.@d6 = callfunc("F_ModSetting", "arpg-equipments", "chest_6_rate", 4) * 100;
+	.@r1 = ($Chest1_Rate > 0 ? $Chest1_Rate : .@d1) / 100;
+	.@r2 = ($Chest2_Rate > 0 ? $Chest2_Rate : .@d2) / 100;
+	.@r3 = ($Chest3_Rate > 0 ? $Chest3_Rate : .@d3) / 100;
+	.@r4 = ($Chest4_Rate > 0 ? $Chest4_Rate : .@d4) / 100;
+	.@r5 = ($Chest5_Rate > 0 ? $Chest5_Rate : .@d5) / 100;
+	.@r6 = ($Chest6_Rate > 0 ? $Chest6_Rate : .@d6) / 100;
+
+	mes "[Chest Drop Customizer]";
+	mes "Select an option to manage the chest primary drop rates:";
+	mes "^0000FFBe aware that this chance only affects the primary drop source for each chest (Ex: Lvls 1-30 for Tier 1). Their drop chance by monsters of a higher level remains unchanged. You can refer to those chances in the Mod Settings^000000";
+	next;
+
+	// Option 1 is now Reset; comma-separated parameters prevent string/colon splitting bugs
+	.@menu = select(
+		"Reset all to default intended rates",
+		"Reset to custom rates (Mod Settings)",
+		"Tier 1 (MLvl 1-30) Drop - " + .@r1 + "%",
+		"Tier 2 (MLvl 31-60) Drop - " + .@r2 + "%",
+		"Tier 3 (MLvl 61-99) Drop - " + .@r3 + "%",
+		"Tier 4 (MLvl 100-150) Drop - " + .@r4 + "%",
+		"Tier 5 (MLvl 151-200) Drop - " + .@r5 + "%",
+		"Tier 6 (MLvl 200-250) Drop - " + .@r6 + "%"
+	);
+
+	// Case 1: Reset everything back to intended defaults
+	if (.@menu == 1) {
+		$Chest1_Rate = 500;
+		$Chest2_Rate = 500;
+		$Chest3_Rate = 300;
+		$Chest4_Rate = 500;
+		$Chest5_Rate = 400;
+		$Chest6_Rate = 400;
+		mes "[Chest Drop Customizer]";
+		mes "All chest primary rates have been reset to default!";
+		close;
+	}
+	
+	// Case 2: Reset back to custom values (Mod Settings)
+	if (.@menu == 2) {
+		$Chest1_Rate = 0;
+		$Chest2_Rate = 0;
+		$Chest3_Rate = 0;
+		$Chest4_Rate = 0;
+		$Chest5_Rate = 0;
+		$Chest6_Rate = 0;
+		mes "[Chest Drop Customizer]";
+		mes "All chest primary rates have been reset to default!";
+		close;
+	}
+
+	// For Chests 1 through 6
+	mes "[Chest Drop Customizer]";
+	mes "Enter new primary drop percentage (1 to 100):";
+	input .@val, 1, 100;
+
+	// Convert whole % into basis points (e.g. 50% -> 5000)
+	.@rate = .@val * 100;
+
+	switch (.@menu) {
+		case 3: $Chest1_Rate = .@rate; break;
+		case 4: $Chest2_Rate = .@rate; break;
+		case 5: $Chest3_Rate = .@rate; break;
+		case 6: $Chest4_Rate = .@rate; break;
+		case 7: $Chest5_Rate = .@rate; break;
+		case 8: $Chest6_Rate = .@rate; break;
+	}
+
+	mes "[Chest Drop Customizer]";
+	mes "Rate updated to " + .@val + "%! The secondary rate remains unchanged.";
+	close;
+
+OnInit:
+	// Bind @chestrates GM/player command
+	bindatcmd "chestrates", strnpcinfo(3) + "::OnCommand", 0, 100;
+	end;
+
+OnCommand:
+	doevent strnpcinfo(3) + "::OnTalk";
+	end;
+}

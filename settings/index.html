@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ARPG Chests Settings</title>
+<style>
+  :root { color-scheme: light dark; --dim: #888; --accent: #e78f4a; }
+  body { font: 14px/1.4 system-ui, sans-serif; margin: 0; padding: 18px 20px; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  p.note { color: var(--dim); margin: 0 0 16px; }
+  details { border: 1px solid #8884; border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; }
+  summary { cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; list-style: none; user-select: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: "▶"; display: inline-block; width: 1em; font-size: 11px; color: var(--dim); }
+  details[open] > summary::before { content: "▼"; }
+  summary .count { margin-left: auto; font-weight: 400; color: var(--dim); font-size: 12px; }
+  .row { display: flex; gap: 8px; align-items: flex-start; margin: 10px 0 0 26px; }
+  .row small { display: block; color: var(--dim); }
+  .row .rate { margin-left: auto; display: flex; align-items: center; gap: 4px; color: var(--dim); font-size: 12px; white-space: nowrap; }
+  .row .rate input { width: 56px; padding: 2px 4px; }
+  input[type=checkbox] { accent-color: var(--accent); }
+  .actions { display: flex; gap: 8px; margin-top: 16px; }
+  button { padding: 6px 14px; font-weight: 500; cursor: pointer; }
+  #status { margin-top: 12px; color: var(--dim); min-height: 1.4em; }
+  .tip-box { margin-top: 16px; padding: 10px; background: #8882; border-radius: 6px; font-size: 12px; color: var(--dim); }
+</style>
+</head>
+<body>
+<h1>ARPG Equipment Chests</h1>
+<p class="note" id="about"></p>
+
+<details open>
+  <summary><input type="checkbox" id="all"> Chest Tiers <span class="count" id="count"></span></summary>
+  <div id="chests"></div>
+</details>
+
+<details open>
+  <summary>Advanced</summary>
+  <div id="advanced"></div>
+</details>
+
+<div class="actions">
+  <button id="save">Save</button>
+  <button id="apply">Save & Restart Server</button>
+</div>
+<div id="status"></div>
+
+<div class="tip-box">
+  💡 <b>Tip</b>: Primary drop rates set here are the server defaults applied on
+  restart. With <b>Show NPC</b> on, the <b>Chest Rates Customizer NPC in the
+  ARPG Hub</b> can change them live without a restart; "Reset all to default rates" in that NPC drops back to these set values.
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const status = text => { $('status').textContent = text; };
+const inputs = {};
+const numberInputs = {};
+const chestKeys = ['chest_1', 'chest_2', 'chest_3', 'chest_4', 'chest_5', 'chest_6'];
+const rateKeyFor = chestKey => `${chestKey}_rate`;
+let settingsByKey = {};
+
+function syncGroup() {
+  const boxes = chestKeys.map(k => inputs[k]).filter(Boolean);
+  const on = boxes.filter(b => b.checked).length;
+  $('all').checked = on === boxes.length;
+  $('all').indeterminate = on > 0 && on < boxes.length;
+  $('count').textContent = `${on} of ${boxes.length} active`;
+}
+
+function booleanRow(setting, parent, rateSetting) {
+  const row = document.createElement('label');
+  row.className = 'row';
+  const input = document.createElement('input');
+  input.type = 'checkbox';
+  input.checked = setting.value === true;
+  input.onchange = syncGroup;
+  inputs[setting.key] = input;
+
+  const text = document.createElement('span');
+  text.textContent = setting.label || setting.key;
+  if (setting.description) {
+    const hint = document.createElement('small');
+    hint.textContent = setting.description;
+    text.append(hint);
+  }
+
+  row.append(input, text);
+
+  if (rateSetting) {
+    const rate = document.createElement('span');
+    rate.className = 'rate';
+    // The row is a <label>, so any click inside toggles the checkbox by default;
+    // stop propagation on the rate wrapper so typing or clicking in it doesn't.
+    rate.onclick = e => e.stopPropagation();
+    const label = document.createElement('span');
+    label.textContent = 'Primary rate';
+    const num = document.createElement('input');
+    num.type = 'number';
+    num.min = rateSetting.min ?? 0;
+    num.max = rateSetting.max ?? 100;
+    num.step = 1;
+    num.value = rateSetting.value;
+    numberInputs[rateSetting.key] = num;
+    const pct = document.createElement('span');
+    pct.textContent = '%';
+    rate.append(label, num, pct);
+    row.append(rate);
+  }
+
+  parent.append(row);
+}
+
+function numberRow(setting, parent) {
+  const row = document.createElement('div');
+  row.className = 'row';
+  const text = document.createElement('span');
+  text.textContent = setting.label || setting.key;
+  if (setting.description) {
+    const hint = document.createElement('small');
+    hint.textContent = setting.description;
+    text.append(hint);
+  }
+  const rate = document.createElement('span');
+  rate.className = 'rate';
+  const num = document.createElement('input');
+  num.type = 'number';
+  num.min = setting.min ?? 0;
+  num.max = setting.max ?? 100;
+  num.step = 1;
+  num.value = setting.value;
+  numberInputs[setting.key] = num;
+  const pct = document.createElement('span');
+  pct.textContent = '%';
+  rate.append(num, pct);
+  row.append(text, rate);
+  parent.append(row);
+}
+
+function clampedRate(key) {
+  const input = numberInputs[key];
+  const setting = settingsByKey[key] || {};
+  const min = setting.min ?? 0;
+  const max = setting.max ?? 100;
+  const raw = Number(input.value);
+  if (!Number.isFinite(raw)) return setting.value ?? min;
+  return Math.min(max, Math.max(min, Math.round(raw)));
+}
+
+function values() {
+  const out = {};
+  for (const [key, input] of Object.entries(inputs)) {
+    out[key] = input.checked;
+  }
+  for (const key of Object.keys(numberInputs)) {
+    out[key] = clampedRate(key);
+  }
+  return out;
+}
+
+async function run(button, work, done) {
+  button.disabled = true;
+  try { await work(); status(done); }
+  catch (e) { status('Error: ' + (e && e.message || e)); }
+  button.disabled = false;
+}
+
+(async () => {
+  try {
+    const mod = await window.modSettings.get();
+    $('about').textContent = `${mod.name} v${mod.version}`
+      + (mod.enabled ? '' : ' · (Disabled in Mods tab)');
+    settingsByKey = Object.fromEntries(mod.settings.map(s => [s.key, s]));
+
+    for (const chestKey of chestKeys) {
+      const chest = settingsByKey[chestKey];
+      if (!chest) continue;
+      booleanRow(chest, $('chests'), settingsByKey[rateKeyFor(chestKey)]);
+    }
+
+    const handled = new Set([
+      ...chestKeys,
+      ...chestKeys.map(rateKeyFor),
+    ]);
+    for (const setting of mod.settings) {
+      if (handled.has(setting.key)) continue;
+      if (setting.value === true || setting.value === false) {
+        booleanRow(setting, $('advanced'));
+      } else if (typeof setting.value === 'number') {
+        numberRow(setting, $('advanced'));
+      }
+    }
+
+    syncGroup();
+  } catch (e) {
+    status('Could not read settings: ' + (e && e.message || e));
+  }
+})();
+
+$('all').onchange = () => {
+  for (const key of chestKeys) {
+    if (inputs[key]) inputs[key].checked = $('all').checked;
+  }
+  syncGroup();
+};
+$('all').onclick = e => e.stopPropagation();
+
+$('save').onclick = () => run($('save'),
+  () => window.modSettings.set(values()),
+  'Saved. Takes effect on next server restart.');
+
+$('apply').onclick = () => run($('apply'), async () => {
+  await window.modSettings.set(values());
+  status('Restarting the server…');
+  await window.modSettings.apply();
+}, 'Saved and server restarted successfully!');
+</script>
+</body>
+</html>

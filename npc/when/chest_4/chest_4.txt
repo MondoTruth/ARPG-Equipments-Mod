@@ -1,0 +1,32 @@
+// ARPG Equipments Mod - Made by Iguera
+-	script	ARPG_Chest4_Drop	-1,{
+	end;
+
+OnInit:
+	.id = 55003;
+	.default_rate_low = callfunc("F_ModSetting", "arpg-equipments", "chest_4_rate", 5) * 100;
+	.rate_secondary   = 200;  // 2% (Lvl 151 - 250)
+	end;
+
+OnNPCKillEvent:
+	.@lv = getmonsterinfo(killedrid, MOB_LV);
+	if (.@lv < 100 || .@lv > 250) end;
+
+	// Use custom rate if configured, otherwise default to 500 (5%)
+	.@main_rate = ($Chest4_Rate > 0) ? $Chest4_Rate : .default_rate_low;
+
+	.@chance = 0;
+	if (.@lv <= 150) {
+		.@chance = .@main_rate;
+	} else {
+		.@chance = .rate_secondary;
+	}
+
+	if (.@chance > 0 && rand(10000) < .@chance) {
+		if (checkweight(.id, 1)) {
+			getitem .id, 1;
+			dispbottom "You found a Tier 4 Equipment Chest!", 0xAA66FF;
+		}
+	}
+	end;
+}
