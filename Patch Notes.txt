@@ -1,5 +1,9 @@
 ARPG Equipments Mod - Full Patch Notes
 
+========== v1.2.3 ==========
+* Thanks to @Flux159 it's now possible to download the mod and its updates directly from the Ragnarok Offline App
+* Merged the Renewal and Pre-Renewal into a single file, that is loaded automatically depending on your version
+
 ========== v1.2.2 ==========
 Fixed errors on NPC Bonus Attributes Extractor 
 * There was an accidental bug where the NPC could delete the wrong item from the player inventory when creating a Scroll (fixed)
