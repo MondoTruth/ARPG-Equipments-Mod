@@ -1,0 +1,25 @@
+# Attaches one arpg-equipments.zip to every published release, built from the
+# tagged commit. The Ragnarok Offline mod registry installs the first release
+# file named arpg-equipments*.zip, so there should be exactly one.
+name: release zip
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      - name: Build arpg-equipments.zip
+        run: git archive --format=zip --prefix=arpg-equipments/ -o arpg-equipments.zip HEAD
+      - name: Attach it to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" arpg-equipments.zip --clobber

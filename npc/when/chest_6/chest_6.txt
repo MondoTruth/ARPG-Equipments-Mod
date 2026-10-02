@@ -1,0 +1,24 @@
+// ARPG Equipments Mod - Made by Iguera
+-	script	ARPG_Chest6_Drop	-1,{
+	end;
+
+OnInit:
+	.id = 55005;
+	.default_rate = callfunc("F_ModSetting", "arpg-equipments", "chest_6_rate", 4) * 100;
+	end;
+
+OnNPCKillEvent:
+	.@lv = getmonsterinfo(killedrid, MOB_LV);
+	if (.@lv < 200 || .@lv > 250) end;
+
+	// Use custom rate if configured, otherwise default to 400 (4%)
+	.@main_rate = ($Chest6_Rate > 0) ? $Chest6_Rate : .default_rate;
+
+	if (.@main_rate > 0 && rand(10000) < .@main_rate) {
+		if (checkweight(.id, 1)) {
+			getitem .id, 1;
+			dispbottom "You found a Tier 6 Legendary Equipment Chest!", 0xFF3333;
+		}
+	}
+	end;
+}
